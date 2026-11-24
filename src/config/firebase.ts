@@ -2,9 +2,11 @@
  * config/firebase.ts
  * Inisialisasi dan Layanan Firebase untuk ReaksiLab XI.
  *
- * Menggunakan Firebase SDK resmi dengan kredensial dari .env (Vite).
+ * Menggunakan Firebase SDK resmi dengan kredensial dari .env (Vite)
+ * dilengkapi nilai fallback cerdas dan penanganan error defensif
+ * agar aplikasi tidak pernah mengalami blank screen putih jika konfigurasi belum lengkap.
  */
-import { initializeApp, getApps, getApp } from 'firebase/app';
+import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import {
   getAuth,
   GoogleAuthProvider,
@@ -14,8 +16,9 @@ import {
   sendPasswordResetEmail,
   signOut,
   updateProfile,
-  onAuthStateChanged,
+  onAuthStateChanged as fbOnAuthStateChanged,
   type User,
+  type Auth,
 } from 'firebase/auth';
 import type { UserProfile } from '../types';
 
@@ -25,23 +28,41 @@ const cleanEnv = (val?: string): string => {
   return val.replace(/^["']|["']$/g, '').trim();
 };
 
+// Konfigurasi Firebase dengan fallback proyek reaksilab-xi-laju-reaksi
 export const firebaseConfig = {
-  apiKey: cleanEnv(import.meta.env.VITE_FIREBASE_API_KEY),
-  authDomain: cleanEnv(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN),
-  projectId: cleanEnv(import.meta.env.VITE_FIREBASE_PROJECT_ID),
-  storageBucket: cleanEnv(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET),
-  messagingSenderId: cleanEnv(import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID),
-  appId: cleanEnv(import.meta.env.VITE_FIREBASE_APP_ID),
-  measurementId: cleanEnv(import.meta.env.VITE_FIREBASE_MEASUREMENT_ID),
+  apiKey: cleanEnv(import.meta.env.VITE_FIREBASE_API_KEY) || 'AIzaSyBVBDxu7pNV9xCL3iW9CPDyjiUhQO3BeLE',
+  authDomain: cleanEnv(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN) || 'reaksilab-xi-laju-reaksi.firebaseapp.com',
+  projectId: cleanEnv(import.meta.env.VITE_FIREBASE_PROJECT_ID) || 'reaksilab-xi-laju-reaksi',
+  storageBucket: cleanEnv(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET) || 'reaksilab-xi-laju-reaksi.firebasestorage.app',
+  messagingSenderId: cleanEnv(import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID) || '806016842549',
+  appId: cleanEnv(import.meta.env.VITE_FIREBASE_APP_ID) || '1:806016842549:web:2053b74b83739b7af16a7c',
+  measurementId: cleanEnv(import.meta.env.VITE_FIREBASE_MEASUREMENT_ID) || 'G-GCZYY4LYJD',
 };
 
-// Inisialisasi Firebase App (Cegah inisialisasi ganda)
-export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-export const auth = getAuth(app);
+// Inisialisasi Firebase secara aman (Defensive Initialization)
+// Mencegah uncaught exception saat bundle dimuat di peramban
+let appInstance: FirebaseApp | null = null;
+let authInstance: Auth | null = null;
+let isInitialized = false;
+
+try {
+  if (firebaseConfig.apiKey && firebaseConfig.apiKey.length > 10) {
+    appInstance = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+    authInstance = getAuth(appInstance);
+    isInitialized = true;
+  } else {
+    console.warn('Firebase API Key belum terkonfigurasi. Mode fallback aktif.');
+  }
+} catch (err) {
+  console.warn('Peringatan inisialisasi Firebase (Safe Mode aktif):', err);
+}
+
+export const app = appInstance as FirebaseApp;
+export const auth = authInstance as Auth;
+export const isFirebaseConfigured = isInitialized;
 
 // Provider Autentikasi Google
 export const googleProvider = new GoogleAuthProvider();
-// Memaksa Google menampilkan pemilih akun (select account) agar pengguna bisa memilih akun yang diinginkan
 googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
@@ -68,6 +89,8 @@ export const formatFirebaseUser = (user: User, role: 'siswa' | 'guru' = 'siswa',
  */
 export const getFirebaseAuthErrorMessage = (errorCode: string): string => {
   switch (errorCode) {
+    case 'auth/invalid-api-key':
+      return 'Kunci API Firebase tidak valid atau belum diatur di Cloudflare Pages.';
     case 'auth/invalid-credential':
     case 'auth/wrong-password':
       return 'Email atau kata sandi yang Anda masukkan salah. Silakan periksa kembali.';
@@ -84,7 +107,7 @@ export const getFirebaseAuthErrorMessage = (errorCode: string): string => {
     case 'auth/popup-blocked':
       return 'Jendela pop-up login Google diblokir oleh peramban (browser). Harap izinkan pop-up untuk situs ini.';
     case 'auth/unauthorized-domain':
-      return 'Domain ini belum diizinkan di Firebase Console. Pastikan "localhost" sudah terdaftar di menu Authentication -> Settings -> Authorized domains.';
+      return 'Domain Cloudflare ini (*.pages.dev) belum diizinkan di Firebase Console. Harap tambahkan domain ini pada menu Authentication -> Settings -> Authorized domains di Firebase Console.';
     case 'auth/operation-not-allowed':
       return 'Metode login ini belum diaktifkan di Firebase Console. Harap aktifkan Google / Email di menu Authentication -> Sign-in method.';
     case 'auth/network-request-failed':
@@ -100,7 +123,10 @@ export const getFirebaseAuthErrorMessage = (errorCode: string): string => {
  * 1. Masuk dengan Akun Google (Real Firebase Google Sign-In with Popup)
  */
 export const signInWithGoogle = async (): Promise<UserProfile> => {
-  const result = await signInWithPopup(auth, googleProvider);
+  if (!authInstance || !isInitialized) {
+    throw { code: 'auth/invalid-api-key', message: 'Layanan Firebase belum siap.' };
+  }
+  const result = await signInWithPopup(authInstance, googleProvider);
   return formatFirebaseUser(result.user, 'siswa', 'google');
 };
 
@@ -108,7 +134,10 @@ export const signInWithGoogle = async (): Promise<UserProfile> => {
  * 2. Masuk dengan Email & Kata Sandi (Real Firebase Email Sign-In)
  */
 export const signInWithEmail = async (email: string, pass: string, role: 'siswa' | 'guru' = 'siswa'): Promise<UserProfile> => {
-  const result = await signInWithEmailAndPassword(auth, email, pass);
+  if (!authInstance || !isInitialized) {
+    throw { code: 'auth/invalid-api-key', message: 'Layanan Firebase belum siap.' };
+  }
+  const result = await signInWithEmailAndPassword(authInstance, email, pass);
   return formatFirebaseUser(result.user, role, 'email');
 };
 
@@ -121,7 +150,10 @@ export const registerWithEmail = async (
   fullName: string,
   role: 'siswa' | 'guru' = 'siswa'
 ): Promise<UserProfile> => {
-  const result = await createUserWithEmailAndPassword(auth, email, pass);
+  if (!authInstance || !isInitialized) {
+    throw { code: 'auth/invalid-api-key', message: 'Layanan Firebase belum siap.' };
+  }
+  const result = await createUserWithEmailAndPassword(authInstance, email, pass);
   // Perbarui nama profil di Firebase
   if (fullName.trim()) {
     try {
@@ -137,14 +169,35 @@ export const registerWithEmail = async (
  * 4. Kirim Tautan Reset Kata Sandi (Real Firebase Password Reset)
  */
 export const resetUserPassword = async (email: string): Promise<void> => {
-  await sendPasswordResetEmail(auth, email);
+  if (!authInstance || !isInitialized) {
+    throw { code: 'auth/invalid-api-key', message: 'Layanan Firebase belum siap.' };
+  }
+  await sendPasswordResetEmail(authInstance, email);
 };
 
 /**
  * 5. Keluar dari Akun (Real Firebase Sign-Out)
  */
 export const logoutFromFirebase = async (): Promise<void> => {
-  await signOut(auth);
+  if (authInstance && isInitialized) {
+    await signOut(authInstance);
+  }
 };
 
-export { onAuthStateChanged };
+/**
+ * Wrapper Aman untuk onAuthStateChanged
+ */
+export const onAuthStateChanged = (
+  authObj: Auth,
+  callback: (user: User | null) => void
+): (() => void) => {
+  if (!authObj || !isInitialized) {
+    return () => {};
+  }
+  try {
+    return fbOnAuthStateChanged(authObj, callback);
+  } catch (err) {
+    console.warn('onAuthStateChanged safe error catch:', err);
+    return () => {};
+  }
+};
