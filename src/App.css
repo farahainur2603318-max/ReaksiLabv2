@@ -3649,6 +3649,21 @@
   border-radius: var(--radius-sm);
 }
 
+.diff-easy {
+  background-color: #dcfce7 !important;
+  color: #15803d !important;
+}
+
+.diff-medium {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+}
+
+.diff-hard {
+  background-color: #fef3c7 !important;
+  color: #b45309 !important;
+}
+
 .question-text {
   font-size: 0.96rem;
   font-weight: 600;
@@ -6567,8 +6582,28 @@
 
 .chapter-subnav-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.85rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+}
+
+.chapter-subnav-card.eval-card {
+  border-color: #86efac;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.chapter-subnav-card.eval-card:hover {
+  border-color: #22c55e;
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.12);
+}
+
+.chapter-subnav-card.eval-card.active {
+  border-color: #16a34a;
+  border-top: 4px solid #16a34a;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2), 0 8px 20px rgba(22, 163, 74, 0.15);
+}
+
+.chapter-subnav-card.eval-card .subnav-badge {
+  background: #15803d;
 }
 
 .chapter-subnav-card {

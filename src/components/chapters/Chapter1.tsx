@@ -15,7 +15,6 @@
  * 6. Tidak memasukkan materi Bab 2-4 (teori tumbukan, energi aktivasi, faktor laju, hukum laju & orde)
  */
 import React, { useState, useEffect } from 'react';
-import { MODULE_1_SECTIONS } from '../../data/modulesData';
 import { LabFormulaBox } from '../LabFormulaBox';
 
 interface Chapter1Props {
@@ -84,10 +83,61 @@ const PHENOMENON_CARDS: PhenomenonCard[] = [
   },
 ];
 
-// ================= DATA SOAL KUIS EVALUASI BAB 1 (8 SOAL) =================
+// ================= STRUKTUR TAB TAHAPAN BELAJAR BAB 1 =================
+interface ChapterTab {
+  id: string;
+  code: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  isEval?: boolean;
+}
+
+const CHAPTER_1_TABS: ChapterTab[] = [
+  {
+    id: 'sec-1-1',
+    code: 'Subbab 1.1',
+    title: 'Fenomena Reaksi Kimia Sehari-hari',
+    subtitle: 'Spektrum Keberagaman Laju Perubahan Kimia',
+    category: 'Fenomena',
+  },
+  {
+    id: 'sec-1-2',
+    code: 'Subbab 1.2',
+    title: 'Pengertian & Konsep Dasar Laju Reaksi',
+    subtitle: 'Definisi Molaritas, Satuan, & Tanda Minus/Plus',
+    category: 'Konsep & Rumus',
+  },
+  {
+    id: 'sec-1-3',
+    code: 'Subbab 1.3',
+    title: 'Perubahan Konsentrasi Zat & Kurva Waktu',
+    subtitle: 'Animasi Partikel, Grafik Kurva, & Rasio Stoikiometri',
+    category: 'Analisis & Simulasi',
+  },
+  {
+    id: 'sec-1-4',
+    code: 'Subbab 1.4',
+    title: 'Pengamatan Lab & Rangkuman Materi',
+    subtitle: 'Metode Makroskopis Lab & Sintesis Materi Bab 1',
+    category: 'Metode & Rangkuman',
+  },
+  {
+    id: 'sec-eval',
+    code: 'Evaluasi',
+    title: 'Evaluasi Formatif Bab 1',
+    subtitle: 'Asesmen Pemahaman Konsep Komprehensif',
+    category: 'Uji Kompetensi',
+    isEval: true,
+  },
+];
+
+// ================= DATA SOAL KUIS EVALUASI FORMATIF BAB 1 (8 SOAL BERJENJANG) =================
 interface ChapterQuizQuestion {
   id: number;
   question: string;
+  topic: string;
+  difficulty: 'Mudah' | 'Sedang' | 'Sulit';
   options: { key: string; text: string }[];
   correctKey: string;
   explanation: string;
@@ -96,99 +146,115 @@ interface ChapterQuizQuestion {
 const CHAPTER_1_QUIZ: ChapterQuizQuestion[] = [
   {
     id: 1,
-    question: 'Di antara fenomena kimia berikut, manakah yang tergolong reaksi kimia yang berlangsung paling cepat?',
+    topic: 'Subbab 1.1: Spektrum Laju di Alam',
+    difficulty: 'Mudah',
+    question: 'Di alam sekitar, berbagai reaksi kimia berlangsung dengan rentang kelajuan yang sangat berbeda. Di antara fenomena reaksi kimia berikut, manakah yang berlangsung paling lambat dan membutuhkan rentang waktu hingga ratusan tahun?',
     options: [
-      { key: 'A', text: 'Perkaratan paku besi di daerah lembap pantai' },
-      { key: 'B', text: 'Pembusukan buah apel yang telah teriris di udara terbuka' },
-      { key: 'C', text: 'Ledakan kembang api saat dinyalakan dengan api' },
-      { key: 'D', text: 'Fermentasi sari singkong menjadi tape manis' },
+      { key: 'A', text: 'Dekomposisi bahan polimer plastik sintetik oleh radiasi ultraviolet dan mikroorganisme tanah' },
+      { key: 'B', text: 'Percikan nyala kepala korek api gesek berbahan fosfor saat digoreskan pada bidang kasar' },
+      { key: 'C', text: 'Pencokelatan irisan buah apel di udara terbuka akibat aktivitas enzim polifenol oksidase' },
+      { key: 'D', text: 'Penguraian spontan larutan hidrogen peroksida (H₂O₂) encer di dalam botol obat tertutup' },
     ],
-    correctKey: 'C',
-    explanation: 'Pembakaran kembang api berlangsung dalam hitungan milidetik (sangat cepat), sedangkan perkaratan memerlukan waktu berbulan-bulan, pembusukan beberapa hari, dan fermentasi beberapa hari.',
+    correctKey: 'A',
+    explanation: 'Degradasi polimer plastik sintetik (seperti polietilena) di alam terbuka membutuhkan ratusan tahun (reaksi sangat lambat) karena ikatan kovalen rantai karbonnya sangat kuat dan stabil. Sebaliknya, gesekan kepala korek api berlangsung dalam milidetik (sangat cepat), pencokelatan apel berlangsung dalam hitungan menit/jam (sedang), dan penguraian hidrogen peroksida tanpa katalis berlangsung dalam hitungan minggu (sedang).',
   },
   {
     id: 2,
-    question: 'Laju reaksi dinyatakan sebagai berkurangnya konsentrasi pereaksi atau bertambahnya konsentrasi produk per satuan waktu. Mengapa laju pengurangan pereaksi A diberi tanda minus dalam persamaan v_A = -Δ[A]/Δt?',
+    topic: 'Subbab 1.2: Makna Tanda Laju',
+    difficulty: 'Mudah',
+    question: 'Pada reaksi pembentukan gas dinitrogen monoksida: 2 NO(g) + H₂(g) → N₂O(g) + H₂O(g), laju berkurangnya gas nitrogen monoksida dinyatakan sebagai v_NO = −(Δ[NO]/Δt). Mengapa rumus pengurangan konsentrasi pereaksi tersebut harus diberi tanda minus (−)?',
     options: [
-      { key: 'A', text: 'Karena nilai kelajuan reaksi pada dasarnya selalu bernilai negatif' },
-      { key: 'B', text: 'Untuk mengompensasi nilai perubahan Δ[A] yang bernilai negatif sehingga nilai laju reaksi tetap bernilai positif' },
-      { key: 'C', text: 'Sebagai tanda bahwa reaksi berlangsung secara mundur ke arah reaktan' },
-      { key: 'D', text: 'Karena pereaksi melepaskan kalor eksoterm ke lingkungan' },
+      { key: 'A', text: 'Karena nilai kelajuan reaksi di alam semesta secara fisis selalu bernilai negatif' },
+      { key: 'B', text: 'Untuk mengompensasi nilai perubahan Δ[NO] yang bernilai negatif karena konsentrasi pereaksi berkurang, sehingga laju reaksi v tetap bernilai positif' },
+      { key: 'C', text: 'Menandakan bahwa reaksi pembentukan gas N₂O merupakan reaksi endoterm yang menyerap energi' },
+      { key: 'D', text: 'Sebagai tanda bahwa molekul reaktan NO bergerak berlawanan arah dengan molekul produk' },
     ],
     correctKey: 'B',
-    explanation: 'Karena [A] akhir lebih kecil daripada [A] awal, maka Δ[A] = [A]t - [A]0 bernilai negatif. Tanda minus di depan rumus memastikan nilai laju reaksi (v) yang dihasilkan selalu bernilai positif.',
+    explanation: 'Konsentrasi reaktan selalu berkurang seiring berjalannya waktu, sehingga [NO]ₜ < [NO]₀ dan Δ[NO] = [NO]ₜ − [NO]₀ bernilai negatif. Tanda minus di depan rumus berfungsi sebagai penyeimbang matematis agar nilai kelajuan reaksi (v) yang dihasilkan selalu merupakan besaran skalar positif.',
   },
   {
     id: 3,
-    question: 'Dalam sebuah wadah 1 Liter, konsentrasi gas NO₂ mula-mula adalah 0,80 M. Setelah reaksi berlangsung selama 20 detik, konsentrasi NO₂ tersisa 0,20 M. Berapakah laju rata-rata berkurangnya gas NO₂?',
+    topic: 'Subbab 1.2: Perhitungan Laju Molaritas',
+    difficulty: 'Sedang',
+    question: 'Di lapisan stratosfer, gas ozon mengalami penguraian fotokimia menurut reaksi: 2 O₃(g) → 3 O₂(g). Dalam bejana tertutup bervolume 2 Liter, jumlah gas ozon berkurang dari 0,60 mol menjadi 0,20 mol dalam selang waktu 40 detik. Berapakah laju rata-rata berkurangnya konsentrasi gas ozon (v_O₃)?',
     options: [
-      { key: 'A', text: '0,01 M/detik' },
-      { key: 'B', text: '0,03 M/detik' },
-      { key: 'C', text: '0,05 M/detik' },
-      { key: 'D', text: '0,06 M/detik' },
+      { key: 'A', text: '0,005 M/detik' },
+      { key: 'B', text: '0,010 M/detik' },
+      { key: 'C', text: '0,020 M/detik' },
+      { key: 'D', text: '0,0025 M/detik' },
     ],
-    correctKey: 'B',
-    explanation: 'Perubahan konsentrasi Δ[NO₂] = 0,20 M - 0,80 M = -0,60 M. Selang waktu Δt = 20 s. Maka v = -(-0,60 M) / 20 s = 0,03 M/detik.',
+    correctKey: 'A',
+    explanation: 'Langkah perhitungan sistematis:\n1. Konsentrasi awal: [O₃]₀ = 0,60 mol / 2 L = 0,30 M.\n2. Konsentrasi akhir: [O₃]ₜ = 0,20 mol / 2 L = 0,10 M.\n3. Perubahan konsentrasi: Δ[O₃] = 0,10 M − 0,30 M = −0,20 M.\n4. Laju pengurangan: v_O₃ = −(Δ[O₃] / Δt) = −(−0,20 M / 40 s) = 0,005 M/detik.',
   },
   {
     id: 4,
-    question: 'Diketahui persamaan reaksi: 2 A + 3 B → C + 4 D. Jika laju pembentukan zat C adalah 0,02 M/detik, berapakah laju berkurangnya zat B?',
+    topic: 'Subbab 1.3: Rasio Stoikiometri Laju',
+    difficulty: 'Sedang',
+    question: 'Gas propana terbakar sempurna menurut persamaan reaksi: C₃H₈(g) + 5 O₂(g) → 3 CO₂(g) + 4 H₂O(g). Jika laju pembentukan gas karbon dioksida (v_CO₂) terukur sebesar 0,09 M/detik, berapakah laju berkurangnya gas oksigen (v_O₂) pada saat yang sama?',
     options: [
-      { key: 'A', text: '0,01 M/detik' },
-      { key: 'B', text: '0,02 M/detik' },
-      { key: 'C', text: '0,06 M/detik' },
-      { key: 'D', text: '0,08 M/detik' },
+      { key: 'A', text: '0,03 M/detik' },
+      { key: 'B', text: '0,09 M/detik' },
+      { key: 'C', text: '0,15 M/detik' },
+      { key: 'D', text: '0,45 M/detik' },
     ],
     correctKey: 'C',
-    explanation: 'Perbandingan laju reaksi sama dengan perbandingan koefisien reaksi: v_B / v_C = koefisien B / koefisien C = 3 / 1. Maka v_B = 3 × v_C = 3 × 0,02 M/s = 0,06 M/detik.',
+    explanation: 'Berdasarkan kesetaraan perbandingan laju stoikiometri:\nv_O₂ / koefisien O₂ = v_CO₂ / koefisien CO₂\nv_O₂ / 5 = 0,09 M/s / 3\nv_O₂ = 5 × 0,03 M/s = 0,15 M/detik.',
   },
   {
     id: 5,
-    question: 'Bagaimanakah karakteristik bentuk kurva konsentrasi pereaksi terhadap waktu pada grafik laju reaksi?',
+    topic: 'Subbab 1.3: Analisis Kurva Grafik',
+    difficulty: 'Sulit',
+    question: 'Pada reaksi hidrolisis senyawa ester: CH₃COOC₂H₅ + H₂O → CH₃COOH + C₂H₅OH, grafik konsentrasi ester terhadap waktu menunjukkan kemiringan yang sangat curam pada detik ke-5, kemudian melandai dan hampir mendatar pada detik ke-60. Penjelasan ilmiah yang paling tepat untuk fenomena ini adalah...',
     options: [
-      { key: 'A', text: 'Garis lurus mendatar horizontal dari awal hingga akhir' },
-      { key: 'B', text: 'Garis melengkung naik dari titik nol menuju nilai maksimum' },
-      { key: 'C', text: 'Kurva melengkung turun: curam di awal reaksi, kemudian semakin melandai seiring bertambahnya waktu' },
-      { key: 'D', text: 'Kurva zig-zag berfluktuasi naik dan turun' },
+      { key: 'A', text: 'Pada awal reaksi pereaksi masih melimpah sehingga laju reaksi tinggi (kurva curam); seiring waktu pereaksi berkurang sehingga laju reaksi menurun dan kurva melandai' },
+      { key: 'B', text: 'Zat ester menguap keluar wadah sehingga reaksinya terhenti secara tiba-tiba di detik ke-60' },
+      { key: 'C', text: 'Produk asam asetat yang terbentuk bersifat racun yang menghentikan aktivitas reaksi' },
+      { key: 'D', text: 'Tetapan laju reaksi k mengalami penurunan nilai drastis seiring berjalannya waktu reaksi' },
     ],
-    correctKey: 'C',
-    explanation: 'Di awal reaksi, pereaksi melimpah sehingga laju reaksi tinggi (kemiringan kurva curam). Seiring waktu, pereaksi berkurang sehingga reaksi melambat dan kurva melandai hingga mendatar saat pereaksi habis.',
+    correctKey: 'A',
+    explanation: 'Kemiringan kurva konsentrasi terhadap waktu menyatakan laju reaksi sesaat (−d[R]/dt). Di awal reaksi, konsentrasi pereaksi tinggi sehingga frekuensi interaksi antarpartikel maksimal (kemiringan curam). Seiring waktu, molekul pereaksi terpakai menjadi produk sehingga konsentrasi berkurang, laju melambat (kemiringan melandai), dan kurva mendatar saat pereaksi habis.',
   },
   {
     id: 6,
-    question: 'Pada percobaan reaksi antara pita magnesium dengan larutan asam klorida: Mg(s) + 2 HCl(aq) → MgCl₂(aq) + H₂(g), metode pengamatan makroskopis manakah yang paling akurat dan mudah dilakukan di laboratorium?',
+    topic: 'Subbab 1.4: Metode Laboratorium',
+    difficulty: 'Sedang',
+    question: 'Pada reaksi antara logam seng dengan larutan asam sulfat: Zn(s) + H₂SO₄(aq) → ZnSO₄(aq) + H₂(g)↑, metode makroskopis manakah yang paling akurat dan praktis dilakukan di laboratorium sekolah untuk menentukan laju reaksi?',
     options: [
-      { key: 'A', text: 'Mengukur pertambahan volume gas hidrogen yang ditampung dalam buret gas (gas syringe) per satuan waktu' },
-      { key: 'B', text: 'Menghitung perubahan warna larutan MgCl₂ menggunakan kertas lakmus' },
-      { key: 'C', text: 'Mengukur penurunan titik beku larutan setiap menit' },
-      { key: 'D', text: 'Menghitung jumlah gelembung dengan mata telanjang tanpa alat ukur' },
+      { key: 'A', text: 'Mengalirkan dan mengukur pertambahan volume gas hidrogen (H₂) per satuan waktu menggunakan buret gas (gas syringe)' },
+      { key: 'B', text: 'Mencicipi perubahan rasa keasaman larutan setiap menit dengan indra pengecap' },
+      { key: 'C', text: 'Mengamati perubahan warna larutan asam sulfat menggunakan kertas indikator lakmus' },
+      { key: 'D', text: 'Mengukur penurunan titik beku larutan setiap sepuluh detik' },
     ],
     correctKey: 'A',
-    explanation: 'Reaksi ini menghasilkan gas hidrogen (H₂). Penampungan gas H₂ menggunakan buret gas atau silinder ukur terbalik memungkinkan pengukuran volume gas (ΔV) secara kuantitatif per satuan waktu (Δt).',
+    explanation: 'Reaksi ini menghasilkan produk berwujud gas hidrogen (H₂) yang tidak berwarna dan sukar larut dalam air. Menampung gas H₂ dengan buret gas (gas syringe) berskala memungkinkan pembacaan kuantitatif perubahan volume gas (ΔV) per satuan waktu (Δt) secara langsung dan presisi (v = ΔV/Δt).',
   },
   {
     id: 7,
-    question: 'Pada reaksi penguraian: 2 N₂O₅(g) → 4 NO₂(g) + O₂(g), manakah hubungan kesetaraan laju reaksi yang BENAR sesuai stoikiometri?',
+    topic: 'Subbab 1.4: Analisis Kekeruhan Endapan',
+    difficulty: 'Sulit',
+    question: 'Dua kelompok siswa mengamati pembentukan endapan putih barium sulfat: BaCl₂(aq) + Na₂SO₄(aq) → BaSO₄(s)↓ + 2 NaCl(aq) di atas tanda silang hitam. Kelompok 1 mencatat tanda silang tertutup endapan dalam 15 detik, sedangkan Kelompok 2 mencatat waktu 60 detik. Manakah kesimpulan perbandingan laju reaksi yang benar?',
     options: [
-      { key: 'A', text: 'v_(N₂O₅) = v_(NO₂) = v_(O₂)' },
-      { key: 'B', text: 'v_(NO₂) = 4 × v_(O₂)' },
-      { key: 'C', text: 'v_(N₂O₅) = 2 × v_(NO₂)' },
-      { key: 'D', text: 'v_(O₂) = 4 × v_(NO₂)' },
+      { key: 'A', text: 'Laju reaksi Kelompok 1 adalah 4 kali lebih cepat dibandingkan Kelompok 2' },
+      { key: 'B', text: 'Laju reaksi Kelompok 1 adalah 4 kali lebih lambat dibandingkan Kelompok 2' },
+      { key: 'C', text: 'Kedua kelompok memiliki laju reaksi yang sama karena jumlah endapan yang terbentuk sama' },
+      { key: 'D', text: 'Kelompok 1 memiliki laju reaksi 0,25 kali kelajuan Kelompok 2' },
     ],
-    correctKey: 'B',
-    explanation: 'Perbandingan laju sama dengan koefisien: v_(N₂O₅)/2 = v_(NO₂)/4 = v_(O₂)/1. Dari hubungan v_(NO₂)/4 = v_(O₂)/1, diperoleh v_(NO₂) = 4 × v_(O₂).',
+    correctKey: 'A',
+    explanation: 'Laju reaksi berbanding terbalik dengan waktu reaksi (v ∝ 1/t). Perbandingannya: v₁ / v₂ = t₂ / t₁ = 60 s / 15 s = 4. Reaksi pada Kelompok 1 berlangsung 4 kali lebih cepat karena membutuhkan waktu yang jauh lebih singkat (hanya 15 detik) untuk mencapai tingkat kekeruhan yang sama.',
   },
   {
     id: 8,
-    question: 'Pada eksperimen reaksi natrium tiosulfat dengan asam klorida yang menghasilkan endapan belerang kuning: Na₂S₂O₃(aq) + 2 HCl(aq) → 2 NaCl(aq) + SO₂(g) + S(s)↓ + H₂O(l), laju reaksi dinyatakan berbanding terbalik dengan waktu reaksi (v ∝ 1/t). Mengapa demikian?',
+    topic: 'Subbab 1.2 & 1.3: Analisis Data Eksperimen',
+    difficulty: 'Sulit',
+    question: 'Data hasil eksperimen reaksi gas nitrogen monoksida dengan gas klorin: 2 NO(g) + Cl₂(g) → 2 NOCl(g) disajikan sebagai berikut:\n• Pada t = 0 s, [NOCl] = 0,00 M\n• Pada t = 10 s, [NOCl] = 0,04 M\n• Pada t = 20 s, [NOCl] = 0,07 M\nBerapakah laju rata-rata pembentukan gas NOCl pada interval waktu antara detik ke-10 hingga detik ke-20?',
     options: [
-      { key: 'A', text: 'Karena waktu reaksi bernilai negatif di dalam larutan asam' },
-      { key: 'B', text: 'Karena semakin cepat reaksi berlangsung (waktu t semakin kecil), maka laju reaksi semakin besar' },
-      { key: 'C', text: 'Karena belerang yang terbentuk larut kembali seiring berjalannya waktu' },
-      { key: 'D', text: 'Karena massa endapan belerang selalu berkurang setiap detik' },
+      { key: 'A', text: '0,003 M/detik' },
+      { key: 'B', text: '0,004 M/detik' },
+      { key: 'C', text: '0,007 M/detik' },
+      { key: 'D', text: '0,035 M/detik' },
     ],
-    correctKey: 'B',
-    explanation: 'Laju berbanding terbalik dengan waktu: jika suatu reaksi selesai dalam waktu singkat (t kecil, misalnya 10 detik), berarti reaksinya cepat (laju besar). Sebaliknya jika butuh waktu lama (t besar, misalnya 100 detik), reaksinya lambat.',
+    correctKey: 'A',
+    explanation: 'Pada interval waktu t₁ = 10 s ke t₂ = 20 s:\n1. Perubahan konsentrasi produk: Δ[NOCl] = 0,07 M − 0,04 M = 0,03 M.\n2. Selang waktu: Δt = 20 s − 10 s = 10 detik.\n3. Laju rata-rata pembentukan: v_NOCl = +(Δ[NOCl] / Δt) = 0,03 M / 10 s = 0,003 M/detik (3 × 10⁻³ M/s).',
   },
 ];
 
@@ -221,7 +287,7 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
 
-  const activeSection = MODULE_1_SECTIONS.find((sec) => sec.id === activeSectionId) || MODULE_1_SECTIONS[0];
+  const activeTab = CHAPTER_1_TABS.find((t) => t.id === activeSectionId) || CHAPTER_1_TABS[0];
 
   // Efek Timer Animasi Subbab 1.3
   useEffect(() => {
@@ -334,34 +400,34 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
           </div>
         </div>
 
-        {/* 3. Tab Navigasi 4 Subbab Utama */}
+        {/* 3. Tab Navigasi 5 Tahapan Belajar (4 Subbab + Evaluasi Formatif) */}
         <div className="chapter-subnav-wrapper">
           <div className="chapter-subnav-header">
-            <span className="subnav-label">PILIH TAHAPAN SUBBAB BELAJAR:</span>
-            <span className="subnav-indicator">Subbab Aktif: {activeSection.code}</span>
+            <span className="subnav-label">PILIH TAHAPAN BELAJAR BAB 1:</span>
+            <span className="subnav-indicator">Tahapan Aktif: {activeTab.code} — {activeTab.title}</span>
           </div>
 
-          <div className="chapter-subnav-grid" role="tablist" aria-label="Daftar Subbab Bab 1">
-            {MODULE_1_SECTIONS.map((sec) => (
+          <div className="chapter-subnav-grid" role="tablist" aria-label="Daftar Tahapan Belajar Bab 1">
+            {CHAPTER_1_TABS.map((tab) => (
               <button
-                key={sec.id}
+                key={tab.id}
                 type="button"
                 role="tab"
-                aria-selected={activeSectionId === sec.id}
-                className={`chapter-subnav-card ${activeSectionId === sec.id ? 'active' : ''}`}
+                aria-selected={activeSectionId === tab.id}
+                className={`chapter-subnav-card ${tab.isEval ? 'eval-card' : ''} ${activeSectionId === tab.id ? 'active' : ''}`}
                 onClick={() => {
-                  setActiveSectionId(sec.id);
+                  setActiveSectionId(tab.id);
                   // Gulir halus ke konten subbab
                   const el = document.getElementById('subbab-content-anchor');
                   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
               >
                 <div className="subnav-card-top">
-                  <span className="subnav-badge">{sec.code}</span>
-                  <span className="subnav-category">{sec.category}</span>
+                  <span className="subnav-badge">{tab.code}</span>
+                  <span className="subnav-category">{tab.category}</span>
                 </div>
-                <h3 className="subnav-card-title">{sec.title}</h3>
-                <p className="subnav-card-sub">{sec.subtitle}</p>
+                <h3 className="subnav-card-title">{tab.title}</h3>
+                <p className="subnav-card-sub">{tab.subtitle}</p>
               </button>
             ))}
           </div>
@@ -552,6 +618,24 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                 )}
               </div>
             </div>
+
+            {/* Navigasi Bawah Subbab 1.1 */}
+            <div className="module-bottom-nav" style={{ marginTop: '1.5rem' }}>
+              <button type="button" className="btn btn-secondary" onClick={onBackToHome}>
+                ← Kembali ke Beranda
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  setActiveSectionId('sec-1-2');
+                  const el = document.getElementById('subbab-content-anchor');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                Lanjut ke Subbab 1.2: Pengertian &amp; Konsep Dasar →
+              </button>
+            </div>
           </div>
         )}
 
@@ -710,6 +794,32 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Navigasi Bawah Subbab 1.2 */}
+            <div className="module-bottom-nav" style={{ marginTop: '1.5rem' }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setActiveSectionId('sec-1-1');
+                  const el = document.getElementById('subbab-content-anchor');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                ← Kembali ke Subbab 1.1
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  setActiveSectionId('sec-1-3');
+                  const el = document.getElementById('subbab-content-anchor');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                Lanjut ke Subbab 1.3: Perubahan Konsentrasi &amp; Kurva →
+              </button>
             </div>
           </div>
         )}
@@ -1089,6 +1199,32 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                 </div>
               </div>
             </div>
+
+            {/* Navigasi Bawah Subbab 1.3 */}
+            <div className="module-bottom-nav" style={{ marginTop: '1.5rem' }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setActiveSectionId('sec-1-2');
+                  const el = document.getElementById('subbab-content-anchor');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                ← Kembali ke Subbab 1.2
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  setActiveSectionId('sec-1-4');
+                  const el = document.getElementById('subbab-content-anchor');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                Lanjut ke Subbab 1.4: Pengamatan Lab &amp; Rangkuman →
+              </button>
+            </div>
           </div>
         )}
 
@@ -1383,182 +1519,241 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                 )}
               </div>
             </div>
+
+            {/* =========================================================================
+                RANGKUMAN KOMPREHENSIF MATERI BAB 1 (HANYA DI AKHIR SUBBAB 1.4)
+                ========================================================================= */}
+            <div className="labsheet-section" style={{ marginTop: '2.5rem' }}>
+              <div className="section-title-wrap">
+                <span className="content-category-tag" style={{ background: '#e0f2fe', color: '#0369a1' }}>SINTESIS PONDASI</span>
+                <h2 className="section-title">Rangkuman Inti Bab 1: Mengenal Laju Reaksi</h2>
+                <p className="section-subtitle">
+                  Empat pilar konsep fundamental yang mencakup keseluruhan materi Subbab 1.1–1.4 sebelum menuju evaluasi formatif:
+                </p>
+              </div>
+
+              <div className="summary-cards-grid">
+                <div className="summary-card-pill">
+                  <div className="pill-icon">🌍</div>
+                  <div className="pill-body">
+                    <strong>1. Spektrum Keberagaman Laju (Subbab 1.1):</strong>
+                    <p>Reaksi kimia di alam berlangsung dengan rentang kelajuan yang sangat luas: dari reaksi sekejap/sangat cepat (ledakan petasan, uji nyala kation), laju sedang (pelarutan tablet effervescent, fermentasi tapai), hingga sangat lambat (perkaratan besi, fosilisasi). Waktu reaksi berbanding terbalik dengan laju reaksinya.</p>
+                  </div>
+                </div>
+
+                <div className="summary-card-pill">
+                  <div className="pill-icon">📐</div>
+                  <div className="pill-body">
+                    <strong>2. Pengertian &amp; Definisi Operasional (Subbab 1.2):</strong>
+                    <p>Laju reaksi didefinisikan secara kuantitatif sebagai laju berkurangnya konsentrasi molar reaktan per satuan waktu (<code>v = −Δ[R]/Δt</code>) atau laju bertambahnya konsentrasi molar produk per satuan waktu (<code>v = +Δ[P]/Δt</code>) dengan satuan standar internasional <strong>M/detik (M·s⁻¹ atau mol·L⁻¹·s⁻¹)</strong>.</p>
+                  </div>
+                </div>
+
+                <div className="summary-card-pill">
+                  <div className="pill-icon">📈</div>
+                  <div className="pill-body">
+                    <strong>3. Kurva Perubahan Konsentrasi &amp; Stoikiometri Laju (Subbab 1.3):</strong>
+                    <p>Kurva konsentrasi reaktan selalu melandai turun, sedangkan kurva produk selalu menanjak naik hingga mencapai titik akhir reaksi. Pada suatu reaksi umum <code>a A + b B → c C + d D</code>, perbandingan laju reaksi setiap zat tepat setara dengan perbandingan koefisien stoikiometrinya: <code>v_A : v_B : v_C : v_D = a : b : c : d</code>.</p>
+                  </div>
+                </div>
+
+                <div className="summary-card-pill">
+                  <div className="pill-icon">🔬</div>
+                  <div className="pill-body">
+                    <strong>4. Pengamatan &amp; Pengukuran Makroskopis (Subbab 1.4):</strong>
+                    <p>Karena molekul submikroskopis tidak terlihat kasat mata, laju diukur melalui fenomena fisik teramati di laboratorium: penampungan pertambahan volume gas (misal gas H₂ dengan buret gas/syringe), pengurangan massa campuran pada sistem terbuka (pelepasan gas CO₂), atau pengukuran waktu kekeruhan endapan (seperti endapan belerang S dengan metode disappearing cross di mana v ∝ 1/t).</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigasi Bawah Subbab 1.4 */}
+            <div className="module-bottom-nav" style={{ marginTop: '2rem' }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setActiveSectionId('sec-1-3');
+                  const el = document.getElementById('subbab-content-anchor');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                ← Kembali ke Subbab 1.3
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                style={{ backgroundColor: '#16a34a', borderColor: '#16a34a' }}
+                onClick={() => {
+                  setActiveSectionId('sec-eval');
+                  const el = document.getElementById('subbab-content-anchor');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                Lanjut ke Evaluasi Formatif Bab 1 📝 →
+              </button>
+            </div>
           </div>
         )}
 
         {/* =========================================================================
-            4. RANGKUMAN KOMPREHENSIF MATERI BAB 1
+            EVALUASI FORMATIF BAB 1 (BAGIAN TERPISAH SETELAH SUBBAB 1.4)
             ========================================================================= */}
-        <div className="labsheet-section">
-          <div className="section-title-wrap">
-            <span className="content-category-tag" style={{ background: '#e0f2fe', color: '#0369a1' }}>SINTESIS PONDASI</span>
-            <h2 className="section-title">Rangkuman Inti Bab 1: Mengenal Laju Reaksi</h2>
-            <p className="section-subtitle">
-              Empat pilar konsep fundamental yang wajib dikuasai sebelum melanjutkan ke Bab 2 (Teori Tumbukan):
-            </p>
-          </div>
-
-          <div className="summary-cards-grid">
-            <div className="summary-card-pill">
-              <div className="pill-icon">🌍</div>
-              <div className="pill-body">
-                <strong>1. Spektrum Waktu Reaksi:</strong>
-                <p>Reaksi kimia memiliki kecepatan beragam: dari ledakan kembang api (milidetik), pelarutan effervescent (detik), hingga perkaratan besi (bulan/tahun).</p>
+        {activeSectionId === 'sec-eval' && (
+          <div className="subbab-section-container animate-fade-in">
+            {/* Header Evaluasi Formatif */}
+            <div className="spark-question-card" style={{ borderColor: '#86efac', background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)' }}>
+              <div className="spark-header">
+                <span className="spark-badge" style={{ backgroundColor: '#15803d' }}>EVALUASI FORMATIF CAPSTONE</span>
+                <span className="spark-tag" style={{ color: '#166534', background: '#dcfce7' }}>🎯 Standar KKTP: 75 Poin</span>
               </div>
+              <h2 className="spark-title" style={{ color: '#14532d' }}>
+                Evaluasi Formatif: Mengenal Laju Reaksi
+              </h2>
+              <p className="spark-desc" style={{ color: '#166534' }}>
+                Evaluasi ini mencakup seluruh capaian tujuan pembelajaran Bab 1 (Subbab 1.1–1.4) dengan <strong>8 butir soal berjenjang</strong> (Mudah, Sedang, Sulit/Analisis).
+                Semua soal menggunakan <strong>fenomena dan persamaan reaksi kimia baru</strong> yang belum pernah dibahas pada materi.
+                Pilihlah salah satu jawaban yang paling tepat pada setiap butir soal!
+              </p>
             </div>
 
-            <div className="summary-card-pill">
-              <div className="pill-icon">📐</div>
-              <div className="pill-body">
-                <strong>2. Definisi Molaritas &amp; Waktu:</strong>
-                <p>Laju reaksi adalah laju berkurangnya pereaksi per satuan waktu <code>v = −Δ[R]/Δt</code> atau laju bertambahnya produk <code>v = +Δ[P]/Δt</code> dengan satuan standar <strong>M/detik</strong>.</p>
-              </div>
-            </div>
-
-            <div className="summary-card-pill">
-              <div className="pill-icon">📈</div>
-              <div className="pill-body">
-                <strong>3. Karakteristik Kurva &amp; Stoikiometri:</strong>
-                <p>Kurva pereaksi selalu menurun dan kurva produk selalu menaik. Pada reaksi <code>a A + b B → c C + d D</code>, perbandingan laju setara dengan koefisien: <code>v_A : v_B : v_C : v_D = a : b : c : d</code>.</p>
-              </div>
-            </div>
-
-            <div className="summary-card-pill">
-              <div className="pill-icon">🔬</div>
-              <div className="pill-body">
-                <strong>4. Pengukuran Makroskopis:</strong>
-                <p>Karena molekul berukuran submikroskopis dan tak terlihat langsung, laju reaksi diukur dari perubahan makroskopis: volume gas hidrogen (H₂), pengurangan massa pelepasan gas karbon dioksida (CO₂), atau waktu kekeruhan endapan belerang (S) dengan hubungan laju berbanding terbalik terhadap waktu (v ∝ 1/t).</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* =========================================================================
-            5. KUIS EVALUASI FORMATIF BAB 1 (8 SOAL INTERAKTIF)
-            ========================================================================= */}
-        <div className="labsheet-section">
-          <div className="quiz-box-container">
-            <div className="quiz-box-header">
-              <div>
-                <span className="virtual-badge">EVALUASI FORMATIF BAB 1</span>
-                <h2 className="quiz-box-title">Uji Pemahaman Konsep: Mengenal Laju Reaksi</h2>
-              </div>
-              <span className="privacy-badge">🎯 Standar KKTP / KKM: 75 Poin</span>
-            </div>
-
-            <p className="quiz-intro-text">
-              Jawablah <strong>8 butir soal pilihan ganda</strong> di bawah ini untuk mengukur pemahaman konsep dasar laju reaksi Anda.
-              Setelah menekan tombol <strong>"Periksa Jawaban &amp; Tampilkan Pembahasan"</strong>, sistem akan menghitung skor otomatis Anda serta menyajikan ulasan ilmiah langkah demi langkah.
-            </p>
-
-            <div className="questions-list">
-              {CHAPTER_1_QUIZ.map((q, idx) => (
-                <div key={q.id} className="quiz-item-card">
-                  <div className="quiz-item-top">
-                    <span className="question-number">Soal {idx + 1} dari {CHAPTER_1_QUIZ.length}</span>
-                    <span className="topic-badge">Konsep Bab 1</span>
-                  </div>
-
-                  <p className="question-text">{q.question}</p>
-
-                  <div className="options-stack">
-                    {q.options.map((opt) => {
-                      const isSelected = quizAnswers[q.id] === opt.key;
-                      let optionClass = 'quiz-opt-btn';
-                      if (isSelected) optionClass += ' selected';
-                      if (quizSubmitted) {
-                        if (opt.key === q.correctKey) optionClass += ' correct';
-                        else if (isSelected && opt.key !== q.correctKey) optionClass += ' incorrect';
-                      }
-
-                      return (
-                        <button
-                          key={opt.key}
-                          type="button"
-                          className={optionClass}
-                          onClick={() => handleSelectQuizAnswer(q.id, opt.key)}
-                          disabled={quizSubmitted}
-                        >
-                          <span className="opt-key">{opt.key}.</span>
-                          <span className="opt-text">{opt.text}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {quizSubmitted && (
-                    <div className="answer-explanation-card">
-                      <div className="explanation-header">
-                        {quizAnswers[q.id] === q.correctKey ? (
-                          <span className="exp-badge exp-pass">✅ Jawaban Tepat (+12.5 Poin)</span>
-                        ) : (
-                          <span className="exp-badge exp-review">ℹ️ Jawaban Keliru (Kunci: {q.correctKey})</span>
-                        )}
-                      </div>
-                      <p className="exp-text"><strong>Pembahasan Ilmiah:</strong> {q.explanation}</p>
-                    </div>
-                  )}
+            {/* Kontainer Soal Kuis */}
+            <div className="quiz-box-container">
+              <div className="quiz-box-header">
+                <div>
+                  <span className="virtual-badge">ASESMEN MANDIRI</span>
+                  <h3 className="quiz-box-title">Daftar Soal Pilihan Ganda (8 Butir Soal)</h3>
                 </div>
-              ))}
-            </div>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <span className="difficulty-badge diff-easy">Mudah (2)</span>
+                  <span className="difficulty-badge diff-medium">Sedang (3)</span>
+                  <span className="difficulty-badge diff-hard">Sulit (3)</span>
+                </div>
+              </div>
 
-            {/* Tombol Aksi Kuis & Banner Skor */}
-            <div className="quiz-actions-bar">
-              {!quizSubmitted ? (
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => setQuizSubmitted(true)}
-                  disabled={Object.keys(quizAnswers).length < CHAPTER_1_QUIZ.length}
-                >
-                  {Object.keys(quizAnswers).length < CHAPTER_1_QUIZ.length
-                    ? `Selesaikan Seluruh Soal (${Object.keys(quizAnswers).length}/${CHAPTER_1_QUIZ.length} Terjawab)`
-                    : 'Periksa Jawaban & Tampilkan Pembahasan'}
-                </button>
-              ) : (
-                <div className="quiz-results-banner">
-                  <div className="score-summary">
-                    <span className="score-number">{quizCorrectCount} / {CHAPTER_1_QUIZ.length}</span>
-                    <div className="score-text">
-                      <strong>Capaian Skor Bab 1: {quizScore}% {quizScore >= 75 ? '🎉 (TUNTAS)' : '📚 (REMEDIAL)'}</strong>
-                      <p>
-                        {quizScore >= 75
-                          ? 'Selamat! Anda telah memahami konsep dasar laju reaksi dengan sangat baik dan siap melanjutkan ke Bab 2.'
-                          : 'Terus semangat! Pelajari kembali pembahasan di atas pada nomor-nomor yang masih keliru untuk memperkuat pemahaman.'}
-                      </p>
+              <div className="questions-list">
+                {CHAPTER_1_QUIZ.map((q, idx) => (
+                  <div key={q.id} className="quiz-item-card">
+                    <div className="quiz-item-top">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span className="question-number">Soal {idx + 1} dari {CHAPTER_1_QUIZ.length}</span>
+                        <span className={`difficulty-badge ${q.difficulty === 'Mudah' ? 'diff-easy' : q.difficulty === 'Sedang' ? 'diff-medium' : 'diff-hard'}`}>
+                          {q.difficulty}
+                        </span>
+                      </div>
+                      <span className="topic-badge">{q.topic}</span>
                     </div>
+
+                    <p className="question-text" style={{ whiteSpace: 'pre-line' }}>{q.question}</p>
+
+                    <div className="options-stack">
+                      {q.options.map((opt) => {
+                        const isSelected = quizAnswers[q.id] === opt.key;
+                        let optionClass = 'quiz-opt-btn';
+                        if (isSelected) optionClass += ' selected';
+                        if (quizSubmitted) {
+                          if (opt.key === q.correctKey) optionClass += ' correct';
+                          else if (isSelected && opt.key !== q.correctKey) optionClass += ' incorrect';
+                        }
+
+                        return (
+                          <button
+                            key={opt.key}
+                            type="button"
+                            className={optionClass}
+                            onClick={() => handleSelectQuizAnswer(q.id, opt.key)}
+                            disabled={quizSubmitted}
+                          >
+                            <span className="opt-key">{opt.key}.</span>
+                            <span className="opt-text">{opt.text}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {quizSubmitted && (
+                      <div className="answer-explanation-card">
+                        <div className="explanation-header">
+                          {quizAnswers[q.id] === q.correctKey ? (
+                            <span className="exp-badge exp-pass">✅ Jawaban Tepat (+12.5 Poin)</span>
+                          ) : (
+                            <span className="exp-badge exp-review">ℹ️ Jawaban Keliru (Kunci Jawaban: {q.correctKey})</span>
+                          )}
+                        </div>
+                        <p className="exp-text" style={{ whiteSpace: 'pre-line' }}>
+                          <strong>Pembahasan Ilmiah:</strong> {q.explanation}
+                        </p>
+                      </div>
+                    )}
                   </div>
+                ))}
+              </div>
+
+              {/* Tombol Aksi Kuis & Banner Skor */}
+              <div className="quiz-actions-bar">
+                {!quizSubmitted ? (
                   <button
                     type="button"
-                    className="btn btn-secondary"
-                    onClick={handleResetQuiz}
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setQuizSubmitted(true);
+                      const el = document.getElementById('eval-score-banner');
+                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }}
+                    disabled={Object.keys(quizAnswers).length < CHAPTER_1_QUIZ.length}
                   >
-                    Ulangi Kuis Bab 1
+                    {Object.keys(quizAnswers).length < CHAPTER_1_QUIZ.length
+                      ? `Selesaikan Seluruh Soal (${Object.keys(quizAnswers).length}/${CHAPTER_1_QUIZ.length} Terjawab)`
+                      : 'Periksa Jawaban & Tampilkan Pembahasan'}
                   </button>
-                </div>
-              )}
+                ) : (
+                  <div id="eval-score-banner" className="quiz-results-banner">
+                    <div className="score-summary">
+                      <span className="score-number">{quizCorrectCount} / {CHAPTER_1_QUIZ.length}</span>
+                      <div className="score-text">
+                        <strong>Capaian Skor Bab 1: {quizScore}% {quizScore >= 75 ? '🎉 (TUNTAS)' : '📚 (REMEDIAL)'}</strong>
+                        <p>
+                          {quizScore >= 75
+                            ? 'Selamat! Anda telah memahami konsep dasar laju reaksi dengan sangat baik dan siap melanjutkan ke materi Bab 2.'
+                            : 'Pelajari kembali pembahasan ilmiah di atas pada nomor-nomor yang masih keliru untuk memperkuat pemahaman konsep Anda.'}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={handleResetQuiz}
+                    >
+                      Ulangi Evaluasi Formatif
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Navigasi Bawah Evaluasi Formatif */}
+            <div className="module-bottom-nav" style={{ marginTop: '2rem' }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setActiveSectionId('sec-1-4');
+                  const el = document.getElementById('subbab-content-anchor');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
+                ← Kembali ke Subbab 1.4 &amp; Rangkuman
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={onNextChapter}
+              >
+                Lanjut ke Bab 2: Teori Tumbukan &amp; Energi Aktivasi →
+              </button>
             </div>
           </div>
-        </div>
-
-        {/* 6. Navigasi Bawah Antar Bab */}
-        <div className="module-bottom-nav">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={onBackToHome}
-          >
-            ← Kembali ke Beranda
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={onNextChapter}
-          >
-            Lanjut ke Bab 2: Teori Tumbukan &amp; Energi Aktivasi →
-          </button>
-        </div>
+        )}
       </section>
     </div>
   );
