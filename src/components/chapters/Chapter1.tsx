@@ -28,7 +28,6 @@ interface PhenomenonCard {
   id: string;
   title: string;
   icon: string;
-  duration: string;
   category: 'cepat' | 'sedang' | 'lambat';
   description: string;
   explanation: string;
@@ -39,7 +38,6 @@ const PHENOMENON_CARDS: PhenomenonCard[] = [
     id: 'phenom-1',
     title: 'Letusan Kembang Api Malam Tahun Baru',
     icon: '🎆',
-    duration: 'Sepersekian detik (milidetik)',
     category: 'cepat',
     description: 'Campuran bubuk mesiu dan garam stronsium/barium terbakar seketika menghasilkan kilatan cahaya dan bunyi dentuman.',
     explanation: 'Reaksi pembakaran bahan peledak kembang api bersifat sangat eksoterm dan memiliki energi kinetik awal yang melimpah, sehingga seluruh pereaksi habis bereaksi dalam hitungan fraksi detik.',
@@ -48,7 +46,6 @@ const PHENOMENON_CARDS: PhenomenonCard[] = [
     id: 'phenom-2',
     title: 'Pelarutan Tablet Vitamin C Effervescent',
     icon: '🥤',
-    duration: '30 – 60 detik',
     category: 'sedang',
     description: 'Asam sitrat dan natrium bikarbonat bereaksi dengan air menghasilkan desisan gelembung gas karbondioksida (CO₂).',
     explanation: 'Reaksi berlangsung teratur selama sekitar satu menit hingga seluruh padatan tablet larut dan pembentukan gelembung gas CO₂ berhenti sempurna.',
@@ -57,7 +54,6 @@ const PHENOMENON_CARDS: PhenomenonCard[] = [
     id: 'phenom-3',
     title: 'Perkaratan Rel Kereta & Pagar Besi',
     icon: '🔩',
-    duration: 'Berminggu-minggu hingga bertahun-tahun',
     category: 'lambat',
     description: 'Besi (Fe) bereaksi lambat dengan oksigen (O₂) dan uap air (H₂O) membentuk senyawa karat besi terhidrasi (Fe₂O₃·xH₂O).',
     explanation: 'Proses korosi elektrokimia pada besi memerlukan paparan bertahap terhadap uap air dan oksigen atmosferik, sehingga perubahan massa dan warnanya baru terlihat nyata setelah waktu yang lama.',
@@ -66,7 +62,6 @@ const PHENOMENON_CARDS: PhenomenonCard[] = [
     id: 'phenom-4',
     title: 'Pembakaran Gas Metana (LPG) pada Kompor',
     icon: '🔥',
-    duration: 'Seketika saat kontak pemantik (detik)',
     category: 'cepat',
     description: 'Gas hidrokarbon bereaksi spontan dengan oksigen membentuk nyala api biru, menghasilkan gas CO₂ dan uap air H₂O.',
     explanation: 'Pembakaran senyawa gas berlangsung sangat cepat karena molekul gas memiliki mobilitas tinggi dan kontak langsung dengan oksigen udara.',
@@ -75,7 +70,6 @@ const PHENOMENON_CARDS: PhenomenonCard[] = [
     id: 'phenom-5',
     title: 'Fermentasi Adonan Roti dengan Ragi',
     icon: '🍞',
-    duration: '1 – 2 jam',
     category: 'sedang',
     description: 'Enzim pada khamir ragi memecah glukosa menghasilkan gas CO₂ yang membuat rongga-rongga adonan roti mengembang.',
     explanation: 'Proses biokimia fermentasi memerlukan waktu adaptasi biologis sel ragi pada suhu hangat sehingga pembentukan gas terjadi secara bertahap dalam hitungan jam.',
@@ -84,7 +78,6 @@ const PHENOMENON_CARDS: PhenomenonCard[] = [
     id: 'phenom-6',
     title: 'Pembentukan Minyak Bumi & Batu Bara',
     icon: '🛢️',
-    duration: 'Jutaan tahun',
     category: 'lambat',
     description: 'Sisa jasad renik plankton dan tumbuhan purba tertimbun di bawah lapisan sedimen bumi mengalami dekomposisi anaerobik.',
     explanation: 'Dekomposisi bahan organik purba di bawah tekanan dan temperatur kerak bumi memerlukan skala waktu geologis ribuan hingga jutaan tahun untuk bertransformasi menjadi hidrokarbon minyak bumi.',
@@ -483,7 +476,6 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                         <span className="sorter-icon">{card.icon}</span>
                         <div>
                           <strong className="sorter-name">{card.title}</strong>
-                          <span className="sorter-dur">{card.duration}</span>
                         </div>
                       </div>
 
