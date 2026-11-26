@@ -36,51 +36,51 @@ interface PhenomenonCard {
 const PHENOMENON_CARDS: PhenomenonCard[] = [
   {
     id: 'phenom-1',
-    title: 'Letusan Kembang Api Malam Tahun Baru',
-    icon: '🎆',
+    title: 'Pembentukan Endapan Kuning Timbal(II) Iodida (PbI₂)',
+    icon: '🧪',
     category: 'cepat',
-    description: 'Campuran bubuk mesiu dan garam stronsium/barium terbakar seketika menghasilkan kilatan cahaya dan bunyi dentuman.',
-    explanation: 'Reaksi pembakaran bahan peledak kembang api bersifat sangat eksoterm dan memiliki energi kinetik awal yang melimpah, sehingga seluruh pereaksi habis bereaksi dalam hitungan fraksi detik.',
+    description: 'Pencampuran larutan bening timbal(II) nitrat [Pb(NO₃)₂] dengan larutan kalium iodida [KI] yang seketika membentuk endapan kuning cerah PbI₂.',
+    explanation: 'Reaksi pengendapan ionik: Pb²⁺(aq) + 2 I⁻(aq) → PbI₂(s) berlangsung spontan dan seketika saat ion-ion bertemu tanpa halangan energi yang berarti.',
   },
   {
     id: 'phenom-2',
-    title: 'Pelarutan Tablet Vitamin C Effervescent',
-    icon: '🥤',
-    category: 'sedang',
-    description: 'Asam sitrat dan natrium bikarbonat bereaksi dengan air menghasilkan desisan gelembung gas karbondioksida (CO₂).',
-    explanation: 'Reaksi berlangsung teratur selama sekitar satu menit hingga seluruh padatan tablet larut dan pembentukan gelembung gas CO₂ berhenti sempurna.',
+    title: 'Penggembungan Kantung Udara Mobil (Airbag) saat Benturan',
+    icon: '💥',
+    category: 'cepat',
+    description: 'Dekomposisi cepat padatan natrium azida (NaN₃) menghasilkan semburan volume besar gas nitrogen (N₂) yang mengisi kantung udara.',
+    explanation: 'Reaksi dekomposisi 2 NaN₃(s) → 2 Na(s) + 3 N₂(g) dirancang khusus berkecepatan ultra tinggi (fraksi detik) untuk melindungi penumpang saat terjadi benturan keras.',
   },
   {
     id: 'phenom-3',
-    title: 'Perkaratan Rel Kereta & Pagar Besi',
-    icon: '🔩',
-    category: 'lambat',
-    description: 'Besi (Fe) bereaksi lambat dengan oksigen (O₂) dan uap air (H₂O) membentuk senyawa karat besi terhidrasi (Fe₂O₃·xH₂O).',
-    explanation: 'Proses korosi elektrokimia pada besi memerlukan paparan bertahap terhadap uap air dan oksigen atmosferik, sehingga perubahan massa dan warnanya baru terlihat nyata setelah waktu yang lama.',
+    title: 'Pemutihan Noda Pakaian dengan Larutan Natrium Hipoklorit (NaOCl)',
+    icon: '👕',
+    category: 'sedang',
+    description: 'Larutan pemutih pakaian (NaOCl) mengoksidasi ikatan rangkap pada zat warna noda hingga molekul pewarna terurai dan noda pakaian memudar.',
+    explanation: 'Proses oksidasi pemutusan ikatan kromofor pewarna oleh ion hipoklorit (OCl⁻) berlangsung secara bertahap dalam rentang beberapa menit selama perendaman pakaian.',
   },
   {
     id: 'phenom-4',
-    title: 'Pembakaran Gas Metana (LPG) pada Kompor',
-    icon: '🔥',
-    category: 'cepat',
-    description: 'Gas hidrokarbon bereaksi spontan dengan oksigen membentuk nyala api biru, menghasilkan gas CO₂ dan uap air H₂O.',
-    explanation: 'Pembakaran senyawa gas berlangsung sangat cepat karena molekul gas memiliki mobilitas tinggi dan kontak langsung dengan oksigen udara.',
+    title: 'Pelunakan Cangkang Telur dalam Larutan Asam Cuka (CH₃COOH)',
+    icon: '🥚',
+    category: 'sedang',
+    description: 'Kalsium karbonat (CaCO₃) pada cangkang telur bereaksi dengan larutan asam asetat (CH₃COOH) menghasilkan gelembung gas CO₂ dan melunakkan cangkang telur.',
+    explanation: 'Reaksi CaCO₃(s) + 2 CH₃COOH(aq) → Ca(CH₃COO)₂(aq) + H₂O(l) + CO₂(g) berlangsung secara bertahap selama beberapa jam karena asam cuka merupakan asam lemah.',
   },
   {
     id: 'phenom-5',
-    title: 'Fermentasi Adonan Roti dengan Ragi',
-    icon: '🍞',
-    category: 'sedang',
-    description: 'Enzim pada khamir ragi memecah glukosa menghasilkan gas CO₂ yang membuat rongga-rongga adonan roti mengembang.',
-    explanation: 'Proses biokimia fermentasi memerlukan waktu adaptasi biologis sel ragi pada suhu hangat sehingga pembentukan gas terjadi secara bertahap dalam hitungan jam.',
+    title: 'Pertumbuhan Pilar Stalaktit dan Stalagmit di Langit-Langit Gua Kapur',
+    icon: '⛰️',
+    category: 'lambat',
+    description: 'Tetesan air tanah yang kaya kalsium bikarbonat [Ca(HCO₃)₂] mengendapkan kembali kalsium karbonat padat (CaCO₃) pada atap dan lantai gua.',
+    explanation: 'Pengendapan kalsit dari penguraian Ca(HCO₃)₂(aq) → CaCO₃(s) + H₂O(l) + CO₂(g) berlangsung dengan laju fraksi milimeter per dekade, membutuhkan ratusan hingga ribuan tahun.',
   },
   {
     id: 'phenom-6',
-    title: 'Pembentukan Minyak Bumi & Batu Bara',
-    icon: '🛢️',
+    title: 'Penuaan dan Penguningan Kertas Dokumen Tua',
+    icon: '📜',
     category: 'lambat',
-    description: 'Sisa jasad renik plankton dan tumbuhan purba tertimbun di bawah lapisan sedimen bumi mengalami dekomposisi anaerobik.',
-    explanation: 'Dekomposisi bahan organik purba di bawah tekanan dan temperatur kerak bumi memerlukan skala waktu geologis ribuan hingga jutaan tahun untuk bertransformasi menjadi hidrokarbon minyak bumi.',
+    description: 'Polimer alami lignin dan selulosa pada serat kayu kertas bereaksi lambat dengan oksigen di udara (O₂) membentuk senyawa kromofor berwarna kekuningan.',
+    explanation: 'Oksidasi lambat senyawa organik lignin oleh oksigen atmosfer berlangsung bertahap selama puluhan hingga ratusan tahun di bawah paparan udara normal.',
   },
 ];
 
@@ -409,7 +409,7 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                   <span className="speed-duration">Fraksi Detik (Milidetik) s.d. Detik</span>
                   <p className="speed-desc">
                     Terjadi seketika saat pereaksi bercampur.
-                    Contoh: Ledakan kembang api, nyala korek gas elpiji, dan reaksi penetralan asam-basa kuat (HCl + NaOH).
+                    Contoh: Ledakan kembang api, nyala gas metana (CH₄) pada kompor, dan reaksi penetralan asam-basa kuat [HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(l)].
                   </p>
                 </div>
 
@@ -419,7 +419,7 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                   <span className="speed-duration">Hitungan Detik s.d. Jam</span>
                   <p className="speed-desc">
                     Perubahan zat dapat diamati secara nyaman dalam rentang menit.
-                    Contoh: Pelarutan tablet vitamin C effervescent dalam air (30–60 detik), pembakaran kayu bakar, dan fermentasi adonan roti.
+                    Contoh: Pelarutan tablet vitamin C effervescent menghasilkan gas CO₂, pembakaran kayu bakar, dan fermentasi glukosa oleh khamir ragi [C₆H₁₂O₆ → 2 C₂H₅OH + 2 CO₂].
                   </p>
                 </div>
 
@@ -429,7 +429,7 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                   <span className="speed-duration">Bulan s.d. Jutaan Tahun</span>
                   <p className="speed-desc">
                     Perubahan berlangsung sangat lambat dan membutuhkan pengamatan berkala.
-                    Contoh: Perkaratan besi pada jembatan dan kapal, pelapukan kimia batuan kapur, serta pembentukan minyak bumi purba.
+                    Contoh: Perkaratan besi jembatan [4 Fe(s) + 3 O₂(g) + 2x H₂O(l) → 2 Fe₂O₃·xH₂O(s)], pelapukan batuan kapur (CaCO₃), serta dekomposisi anaerobik bahan organik purba.
                   </p>
                 </div>
               </div>
@@ -1125,31 +1125,31 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                   <div className="method-icon">🧪</div>
                   <h4>1. Pengukuran Volume Gas</h4>
                   <p>Digunakan untuk reaksi yang menghasilkan produk berfasa gas.</p>
-                  <div className="method-rxn">Mg(s) + 2HCl(aq) → MgCl₂(aq) + H₂(g)↑</div>
-                  <span className="method-formula">v = ΔV_gas / Δt (mL/detik)</span>
+                  <div className="method-rxn">Mg(s) + 2 HCl(aq) → MgCl₂(aq) + H₂(g)↑</div>
+                  <span className="method-formula">v = ΔV(H₂) / Δt (mL/detik)</span>
                 </div>
 
                 <div className="method-box">
                   <div className="method-icon">⚖️</div>
                   <h4>2. Pengurangan Massa Sistem</h4>
                   <p>Untuk reaksi wadah terbuka yang melepaskan gas berat (seperti CO₂).</p>
-                  <div className="method-rxn">CaCO₃(s) + 2HCl(aq) → CaCl₂ + H₂O + CO₂(g)↑</div>
-                  <span className="method-formula">v = Δm_massa / Δt (gram/detik)</span>
+                  <div className="method-rxn">CaCO₃(s) + 2 HCl(aq) → CaCl₂(aq) + H₂O(l) + CO₂(g)↑</div>
+                  <span className="method-formula">v = Δm(CO₂) / Δt (gram/detik)</span>
                 </div>
 
                 <div className="method-box">
                   <div className="method-icon">✖️</div>
                   <h4>3. Waktu Kekeruhan Endapan</h4>
                   <p>Mengukur waktu hingga tanda silang hitam tertutup endapan.</p>
-                  <div className="method-rxn">Na₂S₂O₃(aq) + 2HCl(aq) → 2NaCl + SO₂ + S(s)↓ + H₂O</div>
-                  <span className="method-formula">v ∝ 1/waktu (s⁻¹)</span>
+                  <div className="method-rxn">Na₂S₂O₃(aq) + 2 HCl(aq) → 2 NaCl(aq) + SO₂(g) + S(s)↓ + H₂O(l)</div>
+                  <span className="method-formula">v ∝ 1/t (detik⁻¹)</span>
                 </div>
 
                 <div className="method-box">
                   <div className="method-icon">🌈</div>
                   <h4>4. Perubahan Warna / Tekanan</h4>
                   <p>Mengukur perubahan intensitas serapan warna (spektrofotometri) atau tekanan gas manometer.</p>
-                  <div className="method-rxn">2NO₂(g) [Cokelat] ⇌ N₂O₄(g) [Tak Berwarna]</div>
+                  <div className="method-rxn">2 NO₂(g) [Cokelat kemerahan] ⇌ N₂O₄(g) [Tak berwarna]</div>
                   <span className="method-formula">v = ΔAbsorbansi / Δt</span>
                 </div>
               </div>
@@ -1206,10 +1206,13 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                       <span className="app-tag">METODE 1: PENAMPUNGAN GAS</span>
                       <h4 className="app-title">Buret Gas (Gas Syringe / Eudiometer)</h4>
                       <p className="app-description">
-                        Pita magnesium ($Mg$) dimasukkan ke dalam labu erlenmeyer yang berisi asam klorida ($HCl$).
-                        Labu segera ditutup dengan sumbat karet berselang yang terhubung ke buret gas berskala.
-                        Gas hidrogen ($H_2$) yang dihasilkan akan mendorong piston buret gas ke kanan.
+                        Pita logam magnesium (Mg) dimasukkan ke dalam labu Erlenmeyer yang berisi larutan asam klorida (HCl).
+                        Labu segera ditutup dengan sumbat karet berselang yang terhubung ke buret gas berskala (gas syringe).
+                        Gas hidrogen (H₂) yang dihasilkan akan mendorong piston buret gas ke arah kanan.
                       </p>
+                      <div className="method-rxn" style={{ margin: '8px 0', fontSize: '0.85rem' }}>
+                        Mg(s) + 2 HCl(aq) → MgCl₂(aq) + H₂(g)↑
+                      </div>
 
                       <div className="app-data-box">
                         <strong>Simulasi Data Pengamatan:</strong>
@@ -1269,10 +1272,13 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                       <span className="app-tag">METODE 2: PENGURANGAN MASSA SISTEM</span>
                       <h4 className="app-title">Neraca Analitik Digital (Mass Loss)</h4>
                       <p className="app-description">
-                        Bongkahan pualam kalsium karbonat ($CaCO_3$) direaksikan dengan asam klorida ($HCl$) dalam labu di atas neraca digital.
-                        Mulut labu disumbat kapas longgar agar uap asam tidak keluar, namun gas $CO_2$ yang terbentuk dapat terbang bebas ke udara.
-                        Berkurangnya massa sistem per satuan waktu menunjukkan laju reaksi.
+                        Bongkahan pualam kalsium karbonat (CaCO₃) direaksikan dengan larutan asam klorida (HCl) di dalam labu Erlenmeyer di atas neraca digital.
+                        Mulut labu disumbat gumpalan kapas longgar agar percikan cairan asam tidak keluar, namun gas karbon dioksida (CO₂) yang terbentuk dapat lepas bebas ke udara.
+                        Berkurangnya massa sistem per satuan waktu menunjukkan laju reaksi pelepasan gas CO₂.
                       </p>
+                      <div className="method-rxn" style={{ margin: '8px 0', fontSize: '0.85rem' }}>
+                        CaCO₃(s) + 2 HCl(aq) → CaCl₂(aq) + H₂O(l) + CO₂(g)↑
+                      </div>
 
                       <div className="app-data-box">
                         <strong>Simulasi Data Pengamatan:</strong>
@@ -1326,10 +1332,13 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                       <span className="app-tag">METODE 3: PEMBENTUKAN ENDAPAN KEKERUHAN</span>
                       <h4 className="app-title">Uji Kekeruhan Tanda Silang (Disappearing Cross)</h4>
                       <p className="app-description">
-                        Larutan natrium tiosulfat ($Na_2S_2O_3$) dicampur dengan asam klorida ($HCl$) dalam gelas kimia yang diletakkan di atas kertas bertanda silang hitam ($X$).
-                        Reaksi menghasilkan endapan belerang padat ($S$) berupa suspensi koloid kuning keputihan.
-                        Stopwatch dinyalakan bersamaan, dan dicatat waktu ($t$) saat tanda silang hitam tidak lagi terlihat dari atas tabung.
+                        Larutan natrium tiosulfat (Na₂S₂O₃) dicampur dengan larutan asam klorida (HCl) di dalam gelas kimia yang diletakkan di atas kertas bertanda silang hitam (X).
+                        Reaksi menghasilkan endapan belerang padat (S) berupa suspensi koloid kuning keputihan yang membuat larutan semakin keruh.
+                        Stopwatch dinyalakan bersamaan, dan dicatat waktu reaksi (t) tepat saat tanda silang hitam tidak lagi terlihat saat diamati tegak lurus dari atas tabung.
                       </p>
+                      <div className="method-rxn" style={{ margin: '8px 0', fontSize: '0.85rem' }}>
+                        Na₂S₂O₃(aq) + 2 HCl(aq) → 2 NaCl(aq) + SO₂(g) + S(s)↓ + H₂O(l)
+                      </div>
 
                       <div className="app-data-box">
                         <strong>Korelasi Laju dan Waktu Reaksi:</strong>
@@ -1337,7 +1346,7 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                           Laju Reaksi (v) berbanding terbalik dengan Waktu (v ∝ 1 / t)
                         </div>
                         <p style={{ fontSize: '0.82rem', color: '#475569', margin: 0 }}>
-                          Jika tanda silang hilang dalam waktu 15 detik, reaksinya 4 kali lebih cepat dibanding jika tanda silang hilang dalam waktu 60 detik.
+                          Jika tanda silang hilang dalam waktu 15 detik, laju reaksinya 4 kali lebih cepat dibanding jika tanda silang hilang dalam waktu 60 detik.
                         </p>
                       </div>
                     </div>
@@ -1410,7 +1419,7 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
               <div className="pill-icon">📈</div>
               <div className="pill-body">
                 <strong>3. Karakteristik Kurva &amp; Stoikiometri:</strong>
-                <p>Kurva pereaksi selalu menurun dan kurva produk selalu menaik. Pada reaksi <code>aA + bB → cC</code>, perbandingan laju setara dengan koefisien: <code>v_A : v_B : v_C = a : b : c</code>.</p>
+                <p>Kurva pereaksi selalu menurun dan kurva produk selalu menaik. Pada reaksi <code>a A + b B → c C + d D</code>, perbandingan laju setara dengan koefisien: <code>v_A : v_B : v_C : v_D = a : b : c : d</code>.</p>
               </div>
             </div>
 
@@ -1418,7 +1427,7 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
               <div className="pill-icon">🔬</div>
               <div className="pill-body">
                 <strong>4. Pengukuran Makroskopis:</strong>
-                <p>Karena molekul tak terlihat, laju diukur dari perubahan makroskopis: volume gas ($H_2$), pengurangan massa ($CO_2$), atau waktu kekeruhan endapan ($v \propto 1/t$).</p>
+                <p>Karena molekul berukuran submikroskopis dan tak terlihat langsung, laju reaksi diukur dari perubahan makroskopis: volume gas hidrogen (H₂), pengurangan massa pelepasan gas karbon dioksida (CO₂), atau waktu kekeruhan endapan belerang (S) dengan hubungan laju berbanding terbalik terhadap waktu (v ∝ 1/t).</p>
               </div>
             </div>
           </div>
