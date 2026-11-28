@@ -1604,15 +1604,14 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
             {/* Header Evaluasi Formatif */}
             <div className="spark-question-card" style={{ borderColor: '#86efac', background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)' }}>
               <div className="spark-header">
-                <span className="spark-badge" style={{ backgroundColor: '#15803d' }}>EVALUASI FORMATIF CAPSTONE</span>
+                <span className="spark-badge" style={{ backgroundColor: '#15803d' }}>EVALUASI FORMATIF BAB 1</span>
                 <span className="spark-tag" style={{ color: '#166534', background: '#dcfce7' }}>🎯 Standar KKTP: 75 Poin</span>
               </div>
               <h2 className="spark-title" style={{ color: '#14532d' }}>
                 Evaluasi Formatif: Mengenal Laju Reaksi
               </h2>
               <p className="spark-desc" style={{ color: '#166534' }}>
-                Evaluasi ini mencakup seluruh capaian tujuan pembelajaran Bab 1 (Subbab 1.1–1.4) dengan <strong>8 butir soal berjenjang</strong> (Mudah, Sedang, Sulit/Analisis).
-                Semua soal menggunakan <strong>fenomena dan persamaan reaksi kimia baru</strong> yang belum pernah dibahas pada materi.
+                Evaluasi ini mencakup seluruh capaian tujuan pembelajaran Bab 1 (Subbab 1.1–1.4) dengan <strong>8 butir soal berjenjang</strong>.
                 Pilihlah salah satu jawaban yang paling tepat pada setiap butir soal!
               </p>
             </div>
@@ -1624,23 +1623,13 @@ export const Chapter1: React.FC<Chapter1Props> = ({ onBackToHome, onNextChapter 
                   <span className="virtual-badge">ASESMEN MANDIRI</span>
                   <h3 className="quiz-box-title">Daftar Soal Pilihan Ganda (8 Butir Soal)</h3>
                 </div>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <span className="difficulty-badge diff-easy">Mudah (2)</span>
-                  <span className="difficulty-badge diff-medium">Sedang (3)</span>
-                  <span className="difficulty-badge diff-hard">Sulit (3)</span>
-                </div>
               </div>
 
               <div className="questions-list">
                 {CHAPTER_1_QUIZ.map((q, idx) => (
                   <div key={q.id} className="quiz-item-card">
                     <div className="quiz-item-top">
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span className="question-number">Soal {idx + 1} dari {CHAPTER_1_QUIZ.length}</span>
-                        <span className={`difficulty-badge ${q.difficulty === 'Mudah' ? 'diff-easy' : q.difficulty === 'Sedang' ? 'diff-medium' : 'diff-hard'}`}>
-                          {q.difficulty}
-                        </span>
-                      </div>
+                      <span className="question-number">Soal {idx + 1} dari {CHAPTER_1_QUIZ.length}</span>
                       <span className="topic-badge">{q.topic}</span>
                     </div>
 
